@@ -1,5 +1,5 @@
 {
-    "name": "react-native-contacts",
+    "name": "@remobile/react-native-contacts",
         "version": "1.0.0",
         "description": "A contacts for react-native",
         "main": "index.js",
@@ -14,6 +14,9 @@
             "ios",
             "android",
             "contacts",
+            "contact",
+            "save",
+            "find",
             "remobile",
             "mobile"
         ],
