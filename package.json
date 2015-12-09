@@ -27,5 +27,8 @@
         "repository": {
             "type": "git",
             "url": "git://github.com/remobile/react-native-contacts.git"
+        },
+        "peerDependencies": {
+            "@remobile/react-native-cordova": "^1.0.7"
         }
 }

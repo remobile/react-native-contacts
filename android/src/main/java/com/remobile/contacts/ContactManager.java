@@ -48,7 +48,6 @@ public class ContactManager extends CordovaPlugin {
     public static final int IO_ERROR = 4;
     public static final int NOT_SUPPORTED_ERROR = 5;
     public static final int PERMISSION_DENIED_ERROR = 20;
-    private static final int CONTACT_PICKER_RESULT = 1000;
 
     /**
      * Constructor.
@@ -193,7 +192,7 @@ public class ContactManager extends CordovaPlugin {
         Runnable worker = new Runnable() {
             public void run() {
                 Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-                plugin.cordova.startActivityForResult(plugin, contactPickerIntent, CONTACT_PICKER_RESULT);
+                plugin.cordova.startActivityForResult(plugin, contactPickerIntent, plugin.cordova.CONTACT_PICKER_RESULT);
             }
         };
         this.cordova.getThreadPool().execute(worker);
@@ -208,7 +207,7 @@ public class ContactManager extends CordovaPlugin {
      * @throws JSONException
      */
     public void onActivityResult(int requestCode, int resultCode, final Intent intent) {
-        if (requestCode == CONTACT_PICKER_RESULT) {
+        if (requestCode == cordova.CONTACT_PICKER_RESULT) {
             if (resultCode == Activity.RESULT_OK) {
                 String contactId = intent.getData().getLastPathSegment();
                 // to populate contact data we require  Raw Contact ID
