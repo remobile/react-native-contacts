@@ -1,5 +1,5 @@
 {
-    "name": "@remobile/react-native-contacts",
+    "name": "@SeshApp/react-native-contacts",
         "version": "1.0.1",
         "description": "A contacts for react-native",
         "main": "index.js",
