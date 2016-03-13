@@ -166,21 +166,44 @@ RCT_EXPORT_CORDOVA_METHOD(remove);
 {
     CDVInvokedUrlCommand* callbackId = command.callbackId;
     NSDictionary* options = [command argumentAtIndex:0 withDefault:[NSNull null]];
-
-    CDVContactsPicker* pickerController = [[CDVContactsPicker alloc] init];
-
-    pickerController.peoplePickerDelegate = self;
-    pickerController.callbackId = callbackId;
-    pickerController.options = options;
-    pickerController.pickedContactDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kABRecordInvalidID], kW3ContactId, nil];
-    id allowsEditingValue = [options valueForKey:@"allowsEditing"];
-    BOOL allowsEditing = NO;
-    if ([allowsEditingValue isKindOfClass:[NSNumber class]]) {
-        allowsEditing = [(NSNumber*)allowsEditingValue boolValue];
+    
+    void (^block)() = ^void() {
+        CDVContactsPicker* pickerController = [[CDVContactsPicker alloc] init];
+    
+        NSLog(@"%ld", ABAddressBookGetAuthorizationStatus());
+        
+        pickerController.peoplePickerDelegate = self;
+        pickerController.callbackId = callbackId;
+        pickerController.options = options;
+        pickerController.pickedContactDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kABRecordInvalidID], kW3ContactId, nil];
+        id allowsEditingValue = [options valueForKey:@"allowsEditing"];
+        BOOL allowsEditing = NO;
+        if ([allowsEditingValue isKindOfClass:[NSNumber class]]) {
+            allowsEditing = [(NSNumber*)allowsEditingValue boolValue];
+        }
+        pickerController.allowsEditing = allowsEditing;
+        
+        [[CDVPlugin presentViewController] presentViewController:pickerController animated:YES completion:nil];
+    };
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
+        ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
+        // permission authorized
+        block();
+    } else {
+        // not determined - request permissions
+        ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                block();
+            } else {
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+                [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+            }
+        });
     }
-    pickerController.allowsEditing = allowsEditing;
-
-    [[CDVPlugin presentViewController] presentViewController:pickerController animated:YES completion:nil];
 }
 
 - (void)pickContact:(CDVInvokedUrlCommand *)command
