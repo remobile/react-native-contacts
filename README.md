@@ -1,5 +1,5 @@
 # React Native Contacts (remobile)
-A cordova contacts for react-native, supprt for ios and android
+A cordova contacts for react-native, support for ios and android
 
 ## Installation
 ```sh
@@ -27,57 +27,34 @@ dependencies {
 }
 ```
 
-* register module (in MainActivity.java)
+* register module (in MainApplication.java)
 
 ```java
-import com.remobile.contacts.*;  // <--- import
+......
+import com.remobile.contacts.RCTContactsPackage;  // <--- import
 
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
-  ......
-  private RCTContactsPackage mContactsPackage; // <--- declare package
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mReactRootView = new ReactRootView(this);
-    mContactsPackage = new RCTContactsPackage(this);// <--- alloc package
+......
 
-    mReactInstanceManager = ReactInstanceManager.builder()
-      .setApplication(getApplication())
-      .setBundleAssetName("index.android.bundle")
-      .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(mContactsPackage)              // <------ add here
-      .setUseDeveloperSupport(BuildConfig.DEBUG)
-      .setInitialLifecycleState(LifecycleState.RESUMED)
-      .build();
-
-    mReactRootView.startReactApplication(mReactInstanceManager, "ExampleRN", null);
-
-    setContentView(mReactRootView);
-  }
-
-  ......
-
-  // <----- add start
-  @Override
-  public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-      mContactsPackage.onActivityResult(requestCode, resultCode, data);
-  }
-  // <----- add end
+@Override
+protected List<ReactPackage> getPackages() {
+   ......
+   new RCTContactsPackage(),            // <------ add here
+   ......
 }
+
 ```
 
 ## Usage
 
 ### Example
 ```js
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var {
     StyleSheet,
     View,
     Image,
-} = React;
+} = ReactNative;
 
 
 var Button = require('@remobile/react-native-simple-button');
@@ -205,3 +182,6 @@ var styles = StyleSheet.create({
 
 ### thanks
 * this project come from https://github.com/apache/cordova-plugin-contacts
+
+### see detail use
+* https://github.com/remobile/react-native-template
