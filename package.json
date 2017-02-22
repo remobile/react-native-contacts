@@ -1,6 +1,6 @@
 {
     "name": "@remobile/react-native-contacts",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A contacts for react-native",
     "main": "index.js",
     "author": {
@@ -29,6 +29,6 @@
         "url": "git://github.com/remobile/react-native-contacts.git"
     },
     "peerDependencies": {
-        "@remobile/react-native-cordova": "^1.1.0"
+        "@remobile/react-native-cordova": "^1.1.1"
     }
 }
