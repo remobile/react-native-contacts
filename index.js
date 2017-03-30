@@ -1,11 +1,11 @@
 'use strict';
 
-var contacts = require('./libs/contacts');
-var ContactFindOptions = require('./libs/ContactFindOptions');
-var ContactField = require('./libs/ContactField');
+const contacts = require('./libs/contacts');
+const ContactFindOptions = require('./libs/ContactFindOptions');
+const ContactField = require('./libs/ContactField');
 
 module.exports = {
     contacts: contacts,
     ContactFindOptions: ContactFindOptions,
     ContactField,
-}
+};

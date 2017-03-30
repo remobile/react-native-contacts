@@ -29,7 +29,7 @@
 * @param title
 */
 
-var ContactOrganization = function(pref, type, name, dept, title) {
+const ContactOrganization = function (pref, type, name, dept, title) {
     this.id = null;
     this.pref = (typeof pref != 'undefined' ? pref : false);
     this.type = type || null;

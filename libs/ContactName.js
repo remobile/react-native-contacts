@@ -29,7 +29,7 @@
 * @param prefix
 * @param suffix
 */
-var ContactName = function(formatted, familyName, givenName, middle, prefix, suffix) {
+const ContactName = function (formatted, familyName, givenName, middle, prefix, suffix) {
     this.formatted = formatted || null;
     this.familyName = familyName || null;
     this.givenName = givenName || null;

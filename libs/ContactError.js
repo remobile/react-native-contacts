@@ -24,7 +24,7 @@
  *  An error code assigned by an implementation when an error has occurred
  * @constructor
  */
-var ContactError = function(err) {
+const ContactError = function (err) {
     this.code = (typeof err != 'undefined' ? err : null);
 };
 

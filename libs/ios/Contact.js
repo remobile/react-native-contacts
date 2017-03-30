@@ -19,7 +19,7 @@
  *
 */
 
-var exec = require('@remobile/react-native-cordova').exec,
+const exec = require('@remobile/react-native-cordova').exec,
     ContactError = require('../ContactError');
 
 /**
@@ -40,7 +40,7 @@ module.exports = {
 
         if (this.id === null) {
             if (typeof errorCB === "function") {
-                var errorObj = new ContactError(ContactError.UNKNOWN_ERROR);
+                const errorObj = new ContactError(ContactError.UNKNOWN_ERROR);
                 errorCB(errorObj);
             }
         }

@@ -27,7 +27,7 @@
 * @param value
 * @param pref
 */
-var ContactField = function(type, value, pref) {
+const ContactField = function (type, value, pref) {
     this.id = null;
     this.type = (type && type.toString()) || null;
     this.value = (value && value.toString()) || null;

@@ -19,7 +19,7 @@
  *
 */
 
-var exec = require('@remobile/react-native-cordova').exec;
+const exec = require('@remobile/react-native-cordova').exec;
 
 /**
  * Provides iOS enhanced contacts API.
@@ -53,8 +53,8 @@ module.exports = {
          *            if fields provided contact object contains information for the specified fields
          *
          */
-         var win = function(result) {
-             var fullContact = require('./contacts').create(result);
+         const win = function(result) {
+             const fullContact = require('./contacts').create(result);
             successCallback(fullContact.id, fullContact);
        };
         exec(win, null, "Contacts","chooseContact", [options]);

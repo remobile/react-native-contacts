@@ -19,14 +19,14 @@
  *
 */
 
-var argscheck = require('@remobile/react-native-cordova').argscheck,
+const argscheck = require('@remobile/react-native-cordova').argscheck,
     exec = require('@remobile/react-native-cordova').exec,
     ContactError = require('./ContactError'),
-    utils = require('@remobile/react-native-cordova').utils
+    utils = require('@remobile/react-native-cordova').utils,
     convertUtils = require('./convertUtils');
 
-var ReactNative = require('react-native');
-var iosContact = require('./ios/Contact.js');
+const ReactNative = require('react-native');
+const iosContact = require('./ios/Contact.js');
 
 /**
 * Contains information about a single contact.
@@ -46,7 +46,7 @@ var iosContact = require('./ios/Contact.js');
 * @param {Array.<ContactField>} categories
 * @param {Array.<ContactField>} urls contact's web sites
 */
-var Contact = function (id, displayName, name, nickname, phoneNumbers, emails, addresses,
+const Contact = function (id, displayName, name, nickname, phoneNumbers, emails, addresses,
     ims, organizations, birthday, note, photos, categories, urls) {
     this.id = id || null;
     this.rawId = null;
@@ -70,16 +70,15 @@ var Contact = function (id, displayName, name, nickname, phoneNumbers, emails, a
 * @param successCB success callback
 * @param errorCB error callback
 */
-Contact.prototype.remove = function(successCB, errorCB) {
+Contact.prototype.remove = function (successCB, errorCB) {
     argscheck.checkArgs('FF', 'Contact.remove', arguments);
-    var fail = errorCB && function(code) {
+    const fail = errorCB && function (code) {
         errorCB(new ContactError(code));
     };
     if (this.id === null) {
         fail(ContactError.UNKNOWN_ERROR);
-    }
-    else {
-        exec(successCB, fail, "Contacts", "remove", [this.id]);
+    } else {
+        exec(successCB, fail, 'Contacts', 'remove', [this.id]);
     }
 };
 
@@ -88,14 +87,14 @@ Contact.prototype.remove = function(successCB, errorCB) {
 * With the contact ID set to null.
 * @return copy of this Contact
 */
-Contact.prototype.clone = function() {
-    var clonedContact = utils.clone(this);
+Contact.prototype.clone = function () {
+    const clonedContact = utils.clone(this);
     clonedContact.id = null;
     clonedContact.rawId = null;
 
-    function nullIds(arr) {
+    function nullIds (arr) {
         if (arr) {
-            for (var i = 0; i < arr.length; ++i) {
+            for (let i = 0; i < arr.length; ++i) {
                 arr[i].id = null;
             }
         }
@@ -118,30 +117,28 @@ Contact.prototype.clone = function() {
 * @param successCB success callback
 * @param errorCB error callback
 */
-Contact.prototype.save = function(successCB, errorCB) {
+Contact.prototype.save = function (successCB, errorCB) {
     argscheck.checkArgs('FFO', 'Contact.save', arguments);
-    var fail = errorCB && function(code) {
+    const fail = errorCB && function (code) {
         errorCB(new ContactError(code));
     };
-    var success = function(result) {
+    const success = function (result) {
         if (result) {
             if (successCB) {
-                var fullContact = require('./contacts').create(result);
+                const fullContact = require('./contacts').create(result);
                 successCB(convertUtils.toCordovaFormat(fullContact));
             }
-        }
-        else {
+        } else {
             // no Entry object returned
             fail(ContactError.UNKNOWN_ERROR);
         }
     };
-    var dupContact = convertUtils.toNativeFormat(utils.clone(this));
-    exec(success, fail, "Contacts", "save", [dupContact]);
+    const dupContact = convertUtils.toNativeFormat(utils.clone(this));
+    exec(success, fail, 'Contacts', 'save', [dupContact]);
 };
 
-if (ReactNative.Platform.OS==='ios') {
+if (ReactNative.Platform.OS === 'ios') {
     Contact.prototype.display = iosContact.display;
 }
-
 
 module.exports = Contact;

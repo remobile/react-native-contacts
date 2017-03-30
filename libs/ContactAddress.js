@@ -31,7 +31,7 @@
 * @param country
 */
 
-var ContactAddress = function(pref, type, formatted, streetAddress, locality, region, postalCode, country) {
+const ContactAddress = function (pref, type, formatted, streetAddress, locality, region, postalCode, country) {
     this.id = null;
     this.pref = (typeof pref != 'undefined' ? pref : false);
     this.type = type || null;
